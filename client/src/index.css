@@ -37,7 +37,7 @@ h4 {
   margin-bottom: 16px;
 }
 
-.todo {
+.learner {
   background-color: var(--dark);
   padding: 16px;
   border-radius: 16px;
@@ -50,11 +50,11 @@ h4 {
   margin-bottom: 16px;
 }
 
-.todo:hover {
+.learner:hover {
   opacity: 0.8;
 }
 
-.todo .checkbox {
+.learner .checkbox {
   width: 20px;
   height: 20px;
   margin-right: 16px;
@@ -63,20 +63,20 @@ h4 {
   transition: 0.4s;
 }
 
-.todo.is-complete .checkbox {
+.learner.is-complete .checkbox {
   background-color: var(--primary);
   background-image: linear-gradient(to bottom, var(--primary), var(--secondary));
 }
 
-.todo .text{
+.learner .text{
   font-size: 20px;
 }
 
-.todo.todo.is-complete .text{
+.learner.learner.is-complete .text{
   text-decoration: line-through;
 }
 
-.todo .delete-todo {
+.learner .delete-learner {
   position: absolute;
   right: 16px;
   top: 50%;
@@ -150,7 +150,7 @@ h4 {
   text-transform: uppercase;
 }
 
-.add-todo-input {
+.add-learner-input {
   appearance: none;
   border: none;
   outline: none;

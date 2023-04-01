@@ -17,7 +17,15 @@ function App() {
 
 
     const onDelete = (learnerId) => {
-        fetch(API_BASE+'/delete/'+learnerId)
+        fetch(API_BASE+'/delete', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: learnerId
+            })
+        })
         .then((res) => res.text())
         .then((message) => {
             console.log(message, Date.now());
