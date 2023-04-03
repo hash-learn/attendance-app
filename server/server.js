@@ -3,15 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import {v4 as uuid} from 'uuid';
 
-const LEARNERS_FILE = './learners.json';
-
-const getLearners = () => {
-    return JSON.parse(fs.readFileSync(LEARNERS_FILE));
-}
-
-const setLearners = (learners) => {
-    fs.writeFileSync( LEARNERS_FILE, JSON.stringify(learners));
-}
+import {getLearners, setLearners} from './learnersmodel.js';
 
 const hostname = '127.0.0.1'; 
 const port = 3000; 
