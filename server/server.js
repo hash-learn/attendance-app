@@ -19,7 +19,7 @@ const port = 3000;
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 app.get('/', (req, res) => {
     res.send('Welcome to new Attendance app, served by express!!')
@@ -29,13 +29,13 @@ app.get('/learners', (req, res) => {
     res.send(getLearners())
 })
 
-app.get('/add/:name', (req, res) => {
-    console.log(req.params)
+app.post('/add', (req, res) => {
     const learners = getLearners();
-    const blabla = req.params.name
+    console.log(req.body);
+    const blabla = req.body.name;
     const learner = {
         id: uuid(),
-        name: blabla
+        name: blabla,
     }
     console.log(learners);
     const updatedLearners = [
@@ -43,11 +43,12 @@ app.get('/add/:name', (req, res) => {
         learner
     ]
     setLearners(updatedLearners)
-    res.end(`Successfully added ${blabla}!! `) 
+    res.end(`Successfully added ${learner.id}!! `) 
 })
 
+
 app.post('/delete', (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     const {id} = req.body // req.body is an object as sent by the POST request in the client
     const learners = getLearners();
     const updatedLearners = learners.filter((learner) => learner.id !== id);
