@@ -1,17 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import fs from 'fs';
 import {v4 as uuid} from 'uuid';
-
-const LEARNERS_FILE = './learners.json';
-
-const getLearners = () => {
-    return JSON.parse(fs.readFileSync(LEARNERS_FILE));
-}
-
-const setLearners = (learners) => {
-    fs.writeFileSync( LEARNERS_FILE, JSON.stringify(learners));
-}
+import { getLearners, addLearner } from './models/learners.js';
 
 const hostname = '127.0.0.1'; 
 const port = 3000; 
@@ -25,25 +15,21 @@ app.get('/', (req, res) => {
     res.send('Welcome to new Attendance app, served by express!!')
 })
 
-app.get('/learners', (req, res) => {
-    res.send(getLearners())
+app.get('/learners', async (req, res) => {
+    const learners = await getLearners();
+    console.log(learners)
+    res.send(learners)
 })
 
 app.post('/add', (req, res) => {
-    const learners = getLearners();
     console.log(req.body);
     const blabla = req.body.name;
     const learner = {
-        id: uuid(),
         name: blabla,
+        email: blabla+'@email.com'
     }
-    console.log(learners);
-    const updatedLearners = [
-        ...learners,
-        learner
-    ]
-    setLearners(updatedLearners)
-    res.end(`Successfully added ${learner.id}!! `) 
+    addLearner(learner)
+    res.end(`Successfully added ${learner}!! `)
 })
 
 
