@@ -7,6 +7,7 @@ function App() {
     const [latestDelete, setLatestDelete] = useState('')
     const [latestLearner, setLatestLearner] = useState('')
     const [newLearner, setNewLearner] = useState('');
+    const [addPopUp, setAddPopUp] = useState(false);
 
     useEffect(() => {
         fetch(API_BASE+'/learners')
@@ -23,7 +24,8 @@ function App() {
         }
         const formData = new FormData();
         formData.append("name",  newLearner);
-        fetch(API_BASE+'/add', {
+        formData.append("email",  newLearner+'@email.com');
+        fetch(API_BASE+'/addlearner', {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -58,13 +60,13 @@ function App() {
     return  (
         <div className="App">
             <h1> Welcome to HashInsert Session! </h1>
-            <h4> {Date.now().toString()}  </h4>
+            <h4> {new Date().toDateString()}  </h4>
             <div className="learners">
                 {
                     learners.map((learner, i) => (                    
                         <div key={i} className={'learner'}> 
                             <div className="text"> {learner.name}</div>
-                            <button onClick={() => onDelete(learner.id)}> Delete </button>
+                            {/* <button onClick={() => onDelete(learner.id)}> Delete </button> */}
                         </div>
                         )
                 )
@@ -75,19 +77,25 @@ function App() {
                     ) : ''
                 }
             </div>
-            <div>
-                <div className="content">
-                <form id="add-form">
-                    <h3>Add Learner</h3>
-                    <input type="text" 
-                    id="learner-name"
-                    className='add-learner-input'
-                    onChange={e => setNewLearner(e.target.value)} 
-                    value={newLearner}/>
-                <div className="button" onClick={onAdd}>Create Task</div>
-                </form>
-            </div>
-            </div>
+            <div className="open-popup" onClick={() => setAddPopUp(true)}>+</div>
+            {
+                addPopUp ? (            
+                <div className="addPopup">
+                    <div className="close-popup" onClick={() => setAddPopUp(false)}> x </div>
+                    <div className="content">
+                    <form id="add-form">
+                        <h3>Add Learner</h3>
+                        <input type="text" 
+                        id="learner-name"
+                        className='add-learner-input'
+                        onChange={e => setNewLearner(e.target.value)} 
+                        value={newLearner}/>
+                    <div className="button" onClick={onAdd}>Create Task</div>
+                    </form>
+                    </div>
+                </div>
+                ) : ''
+            } 
         </div>
     )
 }

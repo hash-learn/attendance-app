@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb+srv://charan:qwerty$123@cluster0.9ii2k7o.mongodb.net/attendance_app')
+mongoose.connect('mongodb+srv://<username>:<password>@cluster0.ajmcdal.mongodb.net/attendance_app')
 .then(() => {
     console.log('Connected to MongoDB');
 }).catch((err) => {
@@ -8,9 +8,9 @@ mongoose.connect('mongodb+srv://charan:qwerty$123@cluster0.9ii2k7o.mongodb.net/a
 })
 
 const learnerSchema = new mongoose.Schema({
-    name : {type: String, required: true},
-    email : {type: String, required: true},
-    createdAt : {type: Date, default: Date.now}
+    name: {type: String, required: true} , 
+    email: {type: String, required: true} , 
+    createdAt: {type: Date, default: Date.now}, 
 })
 
 export const Learner = mongoose.model('Learner', learnerSchema);
