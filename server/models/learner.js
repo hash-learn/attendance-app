@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {Learner} from './connection.js'
+import {Learner, Status} from './connection.js'
 
 let learners = JSON.parse(fs.readFileSync('./models/learners.json'));
 
@@ -18,6 +18,15 @@ export const addLearner = (learner) => {
     })
 }
 
+export const markAttendance = (statusObj) => {
+    const statusDoc = new Status(statusObj);
+    statusDoc.save()
+    .then(() => {
+        console.log('Successfully maked attendance!!')
+    }).catch((err) => {
+        console.error('Error marking attendance', err)
+    })
+}
 
 export const setLearners = (updatedLearners) => {
     learners = updatedLearners

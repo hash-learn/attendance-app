@@ -14,3 +14,12 @@ const learnerSchema = new mongoose.Schema({
 })
 
 export const Learner = mongoose.model('Learner', learnerSchema);
+
+const statusSchema = new mongoose.Schema({
+    learner_id : {type: String, required: true},
+    date : {type: String, required : true },
+    status: {type: String, required: true}, 
+    createdAt : {type: Date, default: Date.now}
+})
+
+export const Status = mongoose.model('Status', statusSchema);

@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors';
-import { getLearners, addLearner } from './models/learner.js'
+import { getLearners, addLearner, markAttendance } from './models/learner.js'
 
 const host = '127.0.0.1'
 const port = 3000
@@ -26,6 +26,17 @@ app.post('/addlearner', (req, res) => {
     res.send('Processing adding a learner')
 })
 
+app.get('/mark/:id/:status', async (req, res) => {
+    const {id, status} = req.params
+    const date = new Date().toISOString()
+    const markEntry = {
+        learner_id : id,
+        date,
+        status : status === 'present' ? true : false
+    }
+    await markAttendance(markEntry);
+    res.send(`Entry saved to database`)
+})
 
 app.listen(port, host, () => {
     console.log(`Server started at ${host}:${port}`)

@@ -4,6 +4,7 @@ const API_BASE = 'http://localhost:3000';
 
 function App() {
     const [learners, setLearners] = useState([])
+    const [learnerStatus, setLearnerStatus] = useState([])
     const [latestDelete, setLatestDelete] = useState('')
     const [latestLearner, setLatestLearner] = useState('')
     const [newLearner, setNewLearner] = useState('');
@@ -13,8 +14,15 @@ function App() {
         fetch(API_BASE+'/learners')
         .then((res) => res.json())
         .then((learners) => {
-            console.log(learners, Date.now())
+            // console.log(learners, Date.now())
             setLearners(learners);
+            const learnerStatus = learners.map((learner) => {
+                learner.status = false;
+                return learner;
+            }) 
+            setLearnerStatus(learnerStatus);
+            console.log(learnerStatus);
+
         })
     }, [latestDelete, latestLearner])
 
@@ -57,14 +65,25 @@ function App() {
         })
     }
 
+    const toggleStatus = (learnerId) => {
+        const learner = learnerStatus.find((learner) => learner._id === learnerId);
+        learner.status = !learner.status;
+        console.log(learnerStatus)
+        const otherLearners = learnerStatus.filter((learner) => learner._id !== learnerId)
+        console.log(otherLearners)
+        const updatedLearnerStatus = [...otherLearners, learner]
+        console.log(updatedLearnerStatus)
+        setLearnerStatus(updatedLearnerStatus);
+    }
+
     return  (
         <div className="App">
             <h1> Welcome to HashInsert Session! </h1>
             <h4> {new Date().toDateString()}  </h4>
             <div className="learners">
                 {
-                    learners.map((learner, i) => (                    
-                        <div key={i} className={'learner'}> 
+                    Array.from(learnerStatus).map((learner, i) => (                    
+                        <div key={i} className={`learner${learner.status ? ' is-present' : ''}`} onClick={() => toggleStatus(learner._id)}> 
                             <div className="text"> {learner.name}</div>
                             {/* <button onClick={() => onDelete(learner.id)}> Delete </button> */}
                         </div>
